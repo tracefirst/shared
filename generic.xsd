@@ -1,367 +1,340 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-  targetNamespace="http://www.tracefirst.com/xml/statevet" version="6.0"
-  xmlns="http://www.tracefirst.com/xml/statevet">
+  targetNamespace="http://www.tracefirst.com/xml/generic" version="6.0"
+  xmlns="http://www.tracefirst.com/xml/generic">
 
   <xs:annotation>
     <xs:documentation>
-            (c) Copyright 2012-2015 Trace First Limited.
-            All rights reserved.
-            http://www.tracefirst.com/
+            Original XML schema provided by Trace First Limited 11/11/2015.
+            Subsequent refinements made by:
+             * Trace First Limited
+             * CAI, Inc.
+             * Fort Supply Livestock, Inc.
+            
         </xs:documentation>
-    <xs:documentation>This XML Schema is Copyright © Trace First Limited</xs:documentation>
+    <xs:documentation>This is an open standard donated by the authors under a GPL licence.</xs:documentation>
   </xs:annotation>
   <xs:element name="Data">
     <xs:complexType>
       <xs:sequence minOccurs="1" maxOccurs="1">
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-          <xs:element name="Holding" minOccurs="1" maxOccurs="1">
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element name="Locations" minOccurs="0">
             <xs:complexType>
-              <xs:attribute name="DocRef" use="required">
-                <xs:annotation>
-                  <xs:documentation>The docrefs for Holdings should be prefixed by the letter 'H'</xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                  <xs:restriction base="xs:ID">
-                    <xs:pattern value="H\c*"/>
-                    <xs:pattern value="[H-[:]][\c-[:]]*"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
-              <xs:attribute name="PremNum" type="xs:string"/>
-              <xs:attribute name="Name" type="xs:string"/>
-              <xs:attribute name="Line1" type="xs:string"/>
-              <xs:attribute name="Line2" type="xs:string"/>
-              <xs:attribute name="TownCity" type="xs:string"/>
-              <xs:attribute name="County" type="CountyType"/>
-              <xs:attribute name="State" use="required" type="UsStateType"> </xs:attribute>
-              <xs:attribute name="ZIPcode" type="xs:string"> </xs:attribute>
-            </xs:complexType>
-          </xs:element>
-        </xs:sequence>
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-          <xs:element name="Animal" minOccurs="1" maxOccurs="1">
-            <xs:complexType>
-              <xs:sequence minOccurs="1" maxOccurs="1">
-                <xs:element name="AnimalTag" minOccurs="1" maxOccurs="6">
+              <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="Location" minOccurs="1" maxOccurs="1">
                   <xs:complexType>
-                    <xs:attribute name="Type" use="optional" type="xs:string"> </xs:attribute>
-                    <xs:attribute name="Number" type="xs:string" use="required"/>
+                    <xs:attribute name="DocRef" use="required">
+                      <xs:annotation>
+                        <xs:documentation>The docrefs for Locations should be prefixed by the letter 'L'</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:ID">
+                          <xs:pattern value="L\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="PremNum" type="xs:string"/>
+                    <xs:attribute name="Name" type="xs:string"/>
+                    <xs:attribute name="Line1" type="xs:string"/>
+                    <xs:attribute name="Line2" type="xs:string"/>
+                    <xs:attribute name="TownCity" type="xs:string"/>
+                    <xs:attribute name="County" type="CountyType"/>
+                    <xs:attribute name="State" use="required" type="UsStateType"> </xs:attribute>
+                    <xs:attribute name="ZIPcode" type="xs:string"> </xs:attribute>
                   </xs:complexType>
                 </xs:element>
               </xs:sequence>
-              <xs:attribute name="DocRef" use="required">
-                <xs:annotation>
-                  <xs:documentation>The docrefs for Animals should be prefixed by the letter 'A'</xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                  <xs:restriction base="xs:ID">
-                    <xs:pattern value="A\c*"/>
-                    <xs:pattern value="[A-[:]][\c-[:]]*"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
-              <xs:attribute name="Age" use="optional" type="xs:string"> </xs:attribute>
-              <xs:attribute name="Species" type="SpeciesType" use="optional"/>
-              <xs:attribute name="Breed" type="BreedType" use="optional"/>
-              <xs:attribute name="Sex" use="optional">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="20"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
             </xs:complexType>
           </xs:element>
-        </xs:sequence>
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-          <xs:element name="Person" minOccurs="1" maxOccurs="1">
+          <xs:element name="Persons" minOccurs="0">
             <xs:complexType>
-              <xs:attribute name="DocRef" use="required">
-                <xs:annotation>
-                  <xs:documentation>The docrefs for Persons should be prefixed by the letter 'P'</xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                  <xs:restriction base="xs:ID">
-                    <xs:pattern value="P\c*"/>
-                    <xs:pattern value="[P-[:]][\c-[:]]*"/>
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:attribute>
-              <xs:attribute name="AccreditationNumber" type="xs:string" use="optional"/>
-              <xs:attribute name="Title" type="xs:string"/>
-              <xs:attribute name="FirstName" type="xs:string" use="optional"/>
-              <xs:attribute name="MiddleInitial" type="xs:string"/>
-              <xs:attribute name="LastName" type="xs:string"/>
-              <xs:attribute name="Line1" type="xs:string"/>
-              <xs:attribute name="Line2" type="xs:string"/>
-              <xs:attribute name="TownCity" type="xs:string"/>
-              <xs:attribute name="County" type="CountyType"/>
-              <xs:attribute name="State" use="required" type="UsStateType"> </xs:attribute>
-              <xs:attribute name="ZIPcode" type="xs:string"> </xs:attribute>
+              <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="Person" minOccurs="1" maxOccurs="1">
+                  <xs:complexType>
+                    <xs:attribute name="DocRef" use="required">
+                      <xs:annotation>
+                        <xs:documentation>The docrefs for Persons should be prefixed by the letter 'P'</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:ID">
+                          <xs:pattern value="P\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="AccreditationNumber" type="xs:string" use="optional"/>
+                    <xs:attribute name="Title" type="xs:string"/>
+                    <xs:attribute name="FirstName" type="xs:string" use="optional"/>
+                    <xs:attribute name="MiddleInitial" type="xs:string"/>
+                    <xs:attribute name="LastName" type="xs:string"/>
+                    <xs:attribute name="Line1" type="xs:string"/>
+                    <xs:attribute name="Line2" type="xs:string"/>
+                    <xs:attribute name="TownCity" type="xs:string"/>
+                    <xs:attribute name="County" type="CountyType"/>
+                    <xs:attribute name="State" use="required" type="UsStateType"> </xs:attribute>
+                    <xs:attribute name="ZIPcode" type="xs:string"> </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Animals" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="Animal" minOccurs="1" maxOccurs="1">
+                  <xs:complexType>
+                    <xs:sequence minOccurs="1" maxOccurs="1">
+                      <xs:element name="AnimalTag" minOccurs="1" maxOccurs="6">
+                        <xs:complexType>
+                          <xs:attribute name="Type" use="optional" type="xs:string"> </xs:attribute>
+                          <xs:attribute name="Number" type="xs:string" use="required"/>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="DocRef" use="required">
+                      <xs:annotation>
+                        <xs:documentation>The docrefs for Animals should be prefixed by the letter 'A'</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:ID">
+                          <xs:pattern value="A\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Age" use="optional" type="xs:string"> </xs:attribute>
+                    <xs:attribute name="Species" type="SpeciesType" use="optional"/>
+                    <xs:attribute name="Breed" type="BreedType" use="optional"/>
+                    <xs:attribute name="Sex" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="20"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Count" type="xs:integer"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Movements" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="Movement">
+                  <xs:complexType>
+                    <xs:sequence maxOccurs="unbounded">
+                      <xs:element name="Animal">
+                        <xs:complexType>
+                          <xs:attribute name="AnimalDocRef" use="required">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:IDREF">
+                                <xs:pattern value="A\c*"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:attribute>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="DepartureDate" type="xs:date" use="required"> </xs:attribute>
+                    <xs:attribute name="ArrivalDate" type="xs:date"> </xs:attribute>
+                    <xs:attribute name="Origin" use="required">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="L\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Destination" use="required">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="L\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="CertificateNum" type="xs:string"/>
+                    <xs:attribute name="PermitNum" type="xs:string"/>
+                    <xs:attribute name="MovementType" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>List of valid values to be agreed and added as a contraint</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Veterinarian" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="P\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Comment" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="1000"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Events" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="Event">
+                  <xs:complexType>
+                    <xs:sequence maxOccurs="unbounded">
+                      <xs:element name="Animal">
+                        <xs:complexType>
+                          <xs:attribute name="AnimalDocRef" use="required">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:IDREF">
+                                <xs:pattern value="A\c*"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:attribute>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="Date" type="xs:date" use="required"/>
+                    <xs:attribute name="Location" use="required">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="L\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="EventType" use="required" type="xs:string"> </xs:attribute>
+                    <xs:attribute name="Comment" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="1000"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Veterinarian" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="P\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="NUIMovements" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="NUIMovement">
+                  <xs:complexType>
+                    <xs:attribute name="DepartureDate" type="xs:date" use="required">
+                      <xs:annotation>
+                        <xs:documentation>The maps to the off_date in the nui_master_movement</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="ArrivalDate" type="xs:date">
+                      <xs:annotation>
+                        <xs:documentation>The maps to the on_date in the nui_master_movement. If this attr is not specified, the on_date should be the same as the off_date.
+
+If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, then it should be overwritten with the DepartureDate value.</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Origin" use="required">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="L\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Destination" use="required">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="L\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="CertificateNum" type="xs:string"/>
+                    <xs:attribute name="PermitNum" type="xs:string"/>
+                    <xs:attribute name="MovementType" type="xs:string" use="optional">
+                      <xs:annotation>
+                        <xs:documentation>This should be the SHORT_NAME of a MovementType</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NumberAnimals" type="xs:integer" use="required"/>
+                    <xs:attribute name="Comment" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="1000"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Veterinarian" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="P\c*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="NUIEvents" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="NUIEvent">
+                  <xs:complexType>
+                    <xs:attribute name="Date" type="xs:date" use="required"/>
+                    <xs:attribute name="Location" use="required">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="L.*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="EventType" use="required">
+                      <xs:annotation>
+                        <xs:documentation>This is the short_code for the EventType</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value=""/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Metadata" type="xs:string"/>
+                    <xs:attribute name="NumberAnimals" type="xs:integer" use="required"/>
+                    <xs:attribute name="Comment" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="1000"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Veterinarian" use="optional">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:IDREF">
+                          <xs:pattern value="P.*"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Attachments" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Attachment" type="AttachmentType" minOccurs="0"
+                  maxOccurs="unbounded"/>
+              </xs:sequence>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
-        <xs:element maxOccurs="unbounded" minOccurs="0" name="AnimalEvent">
-          <xs:complexType>
-            <xs:sequence maxOccurs="unbounded">
-              <xs:element name="Animal">
-                <xs:complexType>
-                  <xs:attribute name="AnimalDocRef" use="required">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:IDREF">
-                        <xs:pattern value="A.*"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attribute name="Date" type="xs:date" use="required"/>
-            <xs:attribute name="Location" use="required">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="EventType" use="required" type="xs:string"> </xs:attribute>
-            <xs:attribute name="Comment" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="1000"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Veterinarian" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="P.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-          </xs:complexType>
-        </xs:element>
-        <xs:element maxOccurs="unbounded" minOccurs="0" name="Movement">
-          <xs:complexType>
-            <xs:sequence maxOccurs="unbounded">
-              <xs:element name="Animal">
-                <xs:complexType>
-                  <xs:attribute name="AnimalDocRef" use="required">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:IDREF">
-                        <xs:pattern value="A.*"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attribute name="DepartureDate" type="xs:date" use="required">
-              <xs:annotation>
-                <xs:documentation>The maps to the off_date in the master_movement</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="ArrivalDate" type="xs:date">
-              <xs:annotation>
-                <xs:documentation>The maps to the on_date in the master_movement. If this attr is not specified, the on_date should be the same as the off_date.
-
-If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, then it should be overwritten with the DepartureDate value.</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Species" type="SpeciesType" use="required">
-              <xs:annotation>
-                <xs:documentation>Refer to https://github.com/mmcgrath/CoreOne-E/issues/1355 for reasons why this was retained</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Origin" use="required">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Destination" use="required">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="CertificateNum" type="xs:string"/>
-            <xs:attribute name="PermitNum" type="xs:string"/>
-            <xs:attribute name="MovementType" type="xs:string">
-              <xs:annotation>
-                <xs:documentation>This should be the SHORT_NAME of a MovementType</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Veterinarian" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="P.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Comment" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="1000"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-          </xs:complexType>
-        </xs:element>
-        <xs:element maxOccurs="unbounded" minOccurs="0" name="NUIEvent">
-          <xs:complexType>
-            <xs:attribute name="Date" type="xs:date" use="required"/>
-            <xs:attribute name="Location" use="required">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="EventType" use="required">
-              <xs:annotation>
-                <xs:documentation>This is the short_code for the EventType</xs:documentation>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:enumeration value=""/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Metadata" type="xs:string"/>
-            <xs:attribute name="NumberAnimals" type="xs:integer" use="required"/>
-            <xs:attribute name="Comment" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="1000"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Veterinarian" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="P.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-          </xs:complexType>
-        </xs:element>
-        <xs:element maxOccurs="unbounded" minOccurs="0" name="NUIMovement">
-          <xs:complexType>
-            <xs:attribute name="DepartureDate" type="xs:date" use="required">
-              <xs:annotation>
-                <xs:documentation>The maps to the off_date in the nui_master_movement</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="ArrivalDate" type="xs:date">
-              <xs:annotation>
-                <xs:documentation>The maps to the on_date in the nui_master_movement. If this attr is not specified, the on_date should be the same as the off_date.
-
-If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, then it should be overwritten with the DepartureDate value.</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Origin" use="required">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Destination" use="required">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="CertificateNum" type="xs:string"/>
-            <xs:attribute name="PermitNum" type="xs:string"/>
-            <xs:attribute name="MovementType" type="xs:string" use="optional">
-              <xs:annotation>
-                <xs:documentation>This should be the SHORT_NAME of a MovementType</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="NumberAnimals" type="xs:integer" use="required"/>
-            <xs:attribute name="Comment" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="1000"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Veterinarian" use="optional">
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="P.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="Attachment" type="AttachmentType" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element maxOccurs="unbounded" minOccurs="0" name="Slaughter">
-          <xs:complexType>
-            <xs:sequence maxOccurs="unbounded">
-              <xs:element name="Animal">
-                <xs:complexType>
-                  <xs:attribute name="AnimalDocRef" use="required">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:IDREF">
-                        <xs:pattern value="A.*"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attribute name="SlaughterDate" type="xs:date" use="required">
-              <xs:annotation>
-                <xs:documentation>The maps to the event_date in the animal_event</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Location" use="required">
-              <xs:annotation>
-                <xs:documentation>This is the Holding that will be used to pick a suitable herd for the herd_id of the animal_event</xs:documentation>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="H.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Species" type="SpeciesType" use="required">
-              <xs:annotation>
-                <xs:documentation>This is used to pick the herd used to record the slaughter</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute default="SLA" name="EventTypeCode" type="xs:string">
-              <xs:annotation>
-                <xs:documentation>This is the short_code for the event_type that will be used when creating the animal_event. There should not be a need/reason to override this from it's default 'SLA' value.</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Veterinarian" use="optional">
-              <xs:annotation>
-                <xs:documentation>This will be mapped to the person_id attribute of the created animal_event</xs:documentation>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:IDREF">
-                  <xs:pattern value="P.*"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="Comments" type="xs:string">
-              <xs:annotation>
-                <xs:documentation>This is mapped to the comments field of the created animal_event</xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-          </xs:complexType>
-        </xs:element>
       </xs:sequence>
       <xs:attribute name="GeneratedTimestamp" type="xs:dateTime" use="required"/>
-      <xs:attribute name="DefaultSpecies" type="SpeciesType" use="required"/>
     </xs:complexType>
   </xs:element>
   <xs:simpleType name="SpeciesType">
