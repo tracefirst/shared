@@ -8,9 +8,8 @@
             Original XML schema provided by Trace First Limited 11/11/2015.
             Subsequent refinements made by:
              * Trace First Limited
-             * CAI, Inc.
+             * Computer Aid, Inc.
              * Fort Supply Livestock, Inc.
-            
         </xs:documentation>
     <xs:documentation>This is an open standard donated by the authors under a GPL licence.</xs:documentation>
   </xs:annotation>
@@ -85,7 +84,7 @@
                     <xs:sequence minOccurs="1" maxOccurs="1">
                       <xs:element name="AnimalTag" minOccurs="1" maxOccurs="6">
                         <xs:complexType>
-                          <xs:attribute name="Type" use="optional" type="xs:string"> </xs:attribute>
+                          <xs:attribute name="Type" type="TagType" use="required"/>
                           <xs:attribute name="Number" type="xs:string" use="required"/>
                         </xs:complexType>
                       </xs:element>
@@ -100,16 +99,14 @@
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:attribute>
-                    <xs:attribute name="Age" use="optional" type="xs:string"> </xs:attribute>
-                    <xs:attribute name="Species" type="SpeciesType" use="optional"/>
-                    <xs:attribute name="Breed" type="BreedType" use="optional"/>
-                    <xs:attribute name="Sex" use="optional">
-                      <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                          <xs:maxLength value="20"/>
-                        </xs:restriction>
-                      </xs:simpleType>
+                    <xs:attribute name="Age" type="AgeType" use="optional"/>
+                    <xs:attribute name="SpeciesCode" type="SpeciesCodeType" use="required">
+                        <xs:annotation>
+                            <xs:documentation>This is the Species for this animal.</xs:documentation>
+                        </xs:annotation>
                     </xs:attribute>
+                    <xs:attribute name="Breed" type="BreedType" use="optional"/>
+                    <xs:attribute name="Sex" type="SexType" use="optional"/>
                     <xs:attribute name="Count" type="xs:integer"/>
                   </xs:complexType>
                 </xs:element>
@@ -337,38 +334,19 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
       <xs:attribute name="GeneratedTimestamp" type="xs:dateTime" use="required"/>
     </xs:complexType>
   </xs:element>
-  <xs:simpleType name="SpeciesType">
-    <xs:annotation>
-      <xs:documentation>This enforces the list of allowed species codes that are supported.</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="UNK"/>
-      <xs:enumeration value="BOV"/>
-      <xs:enumeration value="CAP"/>
-      <xs:enumeration value="CER"/>
-      <xs:enumeration value="EQU"/>
-      <xs:enumeration value="OVI"/>
-      <xs:enumeration value="POR"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="BreedType">
-    <xs:annotation>
-      <xs:documentation>The breed code must be 2 or 3 uppercase characters</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:minLength value="2"/>
-      <xs:maxLength value="50"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="CountyType">
-    <xs:annotation>
-      <xs:documentation>From "Lee" to "Aleutians West Census Area" and beyond!</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:minLength value="3"/>
-      <xs:maxLength value="40"/>
-    </xs:restriction>
-  </xs:simpleType>
+  <xs:simpleType name="AgeType">
+      <xs:annotation>
+          <xs:documentation>
+          	This can be an age specified as a number of days, weeks, months or years (suffixed with d, wk, mo or a to designate which) 
+          		OR a date of birth specified as "YYYY-MM-DD"
+						The age definitions adhere to UCUM - http://unitsofmeasure.org/ucum.html
+					</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:pattern value="[0-9]{1,2}(d|wk|mo|a)"/>
+          <xs:pattern value="(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])"/>
+      </xs:restriction>
+  </xs:simpleType>  
   <xs:complexType name="AttachmentType">
     <xs:sequence maxOccurs="unbounded">
       <xs:element name="Payload" type="xs:base64Binary" minOccurs="1" maxOccurs="1"/>
@@ -400,6 +378,24 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
       </xs:simpleType>
     </xs:attribute>
   </xs:complexType>
+  <xs:simpleType name="BreedType">
+    <xs:annotation>
+      <xs:documentation>The breed code must be 2 or 3 uppercase characters</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="2"/>
+      <xs:maxLength value="50"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CountyType">
+    <xs:annotation>
+      <xs:documentation>From "Lee" to "Aleutians West Census Area" and beyond!</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="3"/>
+      <xs:maxLength value="40"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="MimeTypeType">
     <xs:annotation>
       <xs:documentation>See http://tools.ietf.org/html/rfc4288#section-4.2</xs:documentation>
@@ -408,6 +404,294 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
       <xs:pattern value="^.{1,127}/.{1,127}$"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="SexType">
+      <xs:annotation>
+          <xs:documentation>This enforces the list of allowed codes for animal sex types that are supported.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="Female"/>
+          <xs:enumeration value="Male"/>
+          <xs:enumeration value="Gender Unknown"/>
+          <xs:enumeration value="Spayed Female"/>
+          <xs:enumeration value="Neutered Male"/>
+          <xs:enumeration value="True Hermaphrodite"/>
+          <xs:enumeration value="Other"/>
+      </xs:restriction>
+  </xs:simpleType>  
+  <xs:simpleType name="SpeciesCodeType">
+      <xs:annotation>
+          <xs:documentation>This enforces the list of allowed species codes that are supported.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="AQU">
+              <xs:annotation>
+                  <xs:documentation>Aquaculture</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="AVI">
+              <xs:annotation>
+                  <xs:documentation>Avian</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BEF">
+              <xs:annotation>
+                  <xs:documentation>Beef</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BIS">
+              <xs:annotation>
+                  <xs:documentation>Bison</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BOV">
+              <xs:annotation>
+                  <xs:documentation>Bovine (Bison and Cattle)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CAM">
+              <xs:annotation>
+                  <xs:documentation>Camelid (Alpacas, Llamas, etc.)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CAN">
+              <xs:annotation>
+                  <xs:documentation>Canine</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CAP">
+              <xs:annotation>
+                  <xs:documentation>Caprine (Goats)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CER">
+              <xs:annotation>
+                  <xs:documentation>Cervids</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CHI">
+              <xs:annotation>
+                  <xs:documentation>Chickens</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CLM">
+              <xs:annotation>
+                  <xs:documentation>Clams</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CRA">
+              <xs:annotation>
+                  <xs:documentation>Crawfish</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="CTF">
+              <xs:annotation>
+                  <xs:documentation>Catfish</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DAI">
+              <xs:annotation>
+                  <xs:documentation>Dairy</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DEE">
+              <xs:annotation>
+                  <xs:documentation>Deer</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="DUC">
+              <xs:annotation>
+                  <xs:documentation>Ducks</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ELK">
+              <xs:annotation>
+                  <xs:documentation>Elk</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="EQU">
+              <xs:annotation>
+                  <xs:documentation>Equine (Horses, Mules, Donkeys, Burros)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="FEL">
+              <xs:annotation>
+                  <xs:documentation>Feline</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="GEE">
+              <xs:annotation>
+                  <xs:documentation>Geese</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="GUI">
+              <xs:annotation>
+                  <xs:documentation>Guineas</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="MSL">
+              <xs:annotation>
+                  <xs:documentation>Mussels</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="OTH">
+              <xs:annotation>
+                  <xs:documentation>Other</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="OVI">
+              <xs:annotation>
+                  <xs:documentation>Ovine (Sheep)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="OYS">
+              <xs:annotation>
+                  <xs:documentation>Oysters</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="POR">
+              <xs:annotation>
+                  <xs:documentation>Porcine (Swine)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="QUA">
+              <xs:annotation>
+                  <xs:documentation>Quail</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="RTT">
+              <xs:annotation>
+                  <xs:documentation>Ratites (Emus, Ostriches, etc.)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SAL">
+              <xs:annotation>
+                  <xs:documentation>Salmon</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SBA">
+              <xs:annotation>
+                  <xs:documentation>Striped Bass</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SHR">
+              <xs:annotation>
+                  <xs:documentation>Shrimp</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SLP">
+              <xs:annotation>
+                  <xs:documentation>Scallops</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TIL">
+              <xs:annotation>
+                  <xs:documentation>Tilapia</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TRO">
+              <xs:annotation>
+                  <xs:documentation>Trout</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TUR">
+              <xs:annotation>
+                  <xs:documentation>Turkeys</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType> 
+  <xs:simpleType name="TagType">
+      <xs:annotation>
+          <xs:documentation>This enforces the list of allowed tag types that are supported.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="UN">
+              <xs:annotation>
+                  <xs:documentation>Unknown</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="AIN">
+              <xs:annotation>
+                  <xs:documentation>AIN tag (840 visual or RFID)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="AMID">
+              <xs:annotation>
+                  <xs:documentation>American ID (USA and 12 characters)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BRAND">
+              <xs:annotation>
+                  <xs:documentation>Brand</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BRAND-IMAGE">
+              <xs:annotation>
+                  <xs:documentation>Brand image</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="BT">
+              <xs:annotation>
+                  <xs:documentation>Backtag</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="IMP">
+              <xs:annotation>
+                  <xs:documentation>Implant (RFID)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="MGT">
+              <xs:annotation>
+                  <xs:documentation>Management/Owner ID tag</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="N840RFID">
+              <xs:annotation>
+                  <xs:documentation>Non-840 RFID</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NUES8">
+              <xs:annotation>
+                  <xs:documentation>NUES tag (8 characters)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NUES9">
+              <xs:annotation>
+                  <xs:documentation>NUES tag (9 characters)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="OFORID">
+              <xs:annotation>
+                  <xs:documentation>Official foreign ID</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="OTH">
+              <xs:annotation>
+                  <xs:documentation>Other ID (not official)</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NAME">
+              <xs:annotation>
+                  <xs:documentation>Name of animal</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SGFLID">
+              <xs:annotation>
+                  <xs:documentation>Sheep/goat - flock ID tag</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NPIN">
+              <xs:annotation>
+                  <xs:documentation>Sheep/goat National PIN tag</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="TAT">
+              <xs:annotation>
+                  <xs:documentation>Tattoo</xs:documentation>
+              </xs:annotation>
+          </xs:enumeration>
+      </xs:restriction>
+  </xs:simpleType>  
   <xs:simpleType name="UsStateType">
     <xs:annotation>
       <xs:documentation>2-character abbreviation for a state as per USPS National ZIP Code Directory</xs:documentation>
