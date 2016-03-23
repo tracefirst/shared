@@ -376,10 +376,38 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
   </xs:complexType>
   <xs:simpleType name="BreedType">
     <xs:annotation>
-      <xs:documentation>The breed code must be 2 or 3 uppercase characters</xs:documentation>
+      <xs:documentation>By convention, you should use one of these codes if the breed is a 'common' one, otherwise specify the full breed as a string:
+ * Angus (AN)
+ * Angus Hybrids  (BLA)
+ * Belgian Blue (BB)
+ * Belted Galloway (BG)
+ * Black (BLA)
+ * Brahman (BR)
+ * Charolais (CH)
+ * Corriente (MC)
+ * Dexter (DR)
+ * Galloway (GA)
+ * Gelbvieh (GV)
+ * Hereford (HB)
+ * Highland (SH)
+ * Holstein (WW)
+ * Limousin (LM)
+ * Maine Anjou (MA)
+ * Piedmontese (PI)
+ * Polled Hereford (HP)
+ * Red Angus (AR)
+ * Salers (SA)
+ * Santa Gertrudis (SG)
+ * Shorthorn (SS)
+ * Simmental (SM)
+ * South Devon (DS)
+ * Texas Longhorn (TL)
+ * Wagyu (KB)
+
+Receiving parties will interpret a short (2-3 character) upper case string as a short code, otherwise it will be interpreted as a full breed name.</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:minLength value="2"/>
+      <xs:minLength value="1"/>
       <xs:maxLength value="50"/>
     </xs:restriction>
   </xs:simpleType>
