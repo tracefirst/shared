@@ -22,6 +22,9 @@
               <xs:sequence maxOccurs="unbounded" minOccurs="0">
                 <xs:element name="Location" minOccurs="1" maxOccurs="1">
                   <xs:complexType>
+                    <xs:sequence>
+                      <xs:element maxOccurs="1" minOccurs="1" name="Address" type="Address"/>
+                    </xs:sequence>
                     <xs:attribute name="DocRef" use="required">
                       <xs:annotation>
                         <xs:documentation>The docrefs for Locations should be prefixed by the letter 'L'</xs:documentation>
@@ -34,12 +37,6 @@
                     </xs:attribute>
                     <xs:attribute name="PremNum" type="xs:string"/>
                     <xs:attribute name="Name" type="xs:string"/>
-                    <xs:attribute name="Line1" type="xs:string"/>
-                    <xs:attribute name="Line2" type="xs:string"/>
-                    <xs:attribute name="TownCity" type="xs:string"/>
-                    <xs:attribute name="County" type="CountyType"/>
-                    <xs:attribute name="State" use="required" type="UsStateType"> </xs:attribute>
-                    <xs:attribute name="ZIPcode" type="xs:string"> </xs:attribute>
                   </xs:complexType>
                 </xs:element>
               </xs:sequence>
@@ -335,18 +332,17 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
     </xs:complexType>
   </xs:element>
   <xs:simpleType name="AgeType">
-      <xs:annotation>
-          <xs:documentation>
-          	This can be an age specified as a number of days, weeks, months or years (suffixed with d, wk, mo or a to designate which) 
-          		OR a date of birth specified as "YYYY-MM-DD"
-						The age definitions adhere to UCUM - http://unitsofmeasure.org/ucum.html
-					</xs:documentation>
-      </xs:annotation>
-      <xs:restriction base="xs:string">
-          <xs:pattern value="[0-9]{1,2}(d|wk|mo|a)"/>
-          <xs:pattern value="(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])"/>
-      </xs:restriction>
-  </xs:simpleType>  
+    <xs:annotation>
+      <xs:documentation> This can be an age specified as a number of days, weeks, months or years
+        (suffixed with d, wk, mo or a to designate which) OR a date of birth specified as
+        "YYYY-MM-DD" The age definitions adhere to UCUM - http://unitsofmeasure.org/ucum.html
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{1,2}(d|wk|mo|a)"/>
+      <xs:pattern value="(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="AttachmentType">
     <xs:sequence maxOccurs="unbounded">
       <xs:element name="Payload" type="xs:base64Binary" minOccurs="1" maxOccurs="1"/>
@@ -762,4 +758,104 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
       <xs:enumeration value="WY"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="ISO3166CountryType">
+    <xs:annotation>
+      <xs:documentation>ISO3166 Alpha-3 codes</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="USA"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ZipCode">
+    <xs:annotation>
+      <xs:documentation>Must be ZIP or ZIP+4 format</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{5}"/>
+      <xs:pattern value="[0-9]{5}-[0-9]{4}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LatitudeType">
+    <xs:annotation>
+      <xs:documentation>A positive number indicates North; negative indicates
+        South</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="-90.0"/>
+      <xs:maxInclusive value="90.0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="LongitudeType">
+    <xs:annotation>
+      <xs:documentation>A negative number indicates West; a positive number indicates
+        East</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="-180.0"/>
+      <xs:maxInclusive value="180.0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="GeoPointType">
+    <xs:attribute name="lat" type="LatitudeType" use="required"/>
+    <xs:attribute name="lng" type="LongitudeType" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="Address">
+    <xs:sequence>
+      <xs:element maxOccurs="1" minOccurs="1" name="Line1">
+        <xs:annotation>
+          <xs:documentation>First line of the premises address</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="0" name="Line2">
+        <xs:annotation>
+          <xs:documentation>Second line of the premises address</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="1" name="Town">
+        <xs:annotation>
+          <xs:documentation>Town/City of the premises address</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="0" name="County" type="CountyType">
+        <xs:annotation>
+          <xs:documentation>County of the premises address</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="1" name="State" type="UsState">
+        <xs:annotation>
+          <xs:documentation>State of the premises address</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="1" name="ZIP" type="ZipCode">
+        <xs:annotation>
+          <xs:documentation>ZipCode of the premises address</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="0" name="Country" type="ISO3166CountryType">
+        <xs:annotation>
+          <xs:documentation>Country of the premises address</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element maxOccurs="1" minOccurs="0" name="GeoPoint" type="GeoPointType">
+        <xs:annotation>
+          <xs:documentation>The co-ordinates of this premises</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>
