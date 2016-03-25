@@ -35,7 +35,19 @@
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:attribute>
-                    <xs:attribute name="PremNum" type="xs:string"/>
+                    <xs:attribute name="PremNum">
+                      <xs:annotation>
+                        <xs:documentation>If this is 7 characters we will assume it is a Federal PIN.
+If this is 6 or 8 characters we will assume it is a State LID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:minLength value="6"/>
+                          <xs:maxLength value="8"/>
+                          <xs:pattern value="[A-Z0-9]{6,8}"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
                     <xs:attribute name="Name" type="xs:string"/>
                   </xs:complexType>
                 </xs:element>
