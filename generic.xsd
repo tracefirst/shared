@@ -79,10 +79,16 @@
                 <xs:element name="Animal" minOccurs="1" maxOccurs="1">
                   <xs:complexType>
                     <xs:sequence minOccurs="1" maxOccurs="1">
-                      <xs:element name="AnimalTag" minOccurs="1" maxOccurs="6">
+                      <xs:element name="AnimalTags">
                         <xs:complexType>
-                          <xs:attribute name="Type" type="TagType" use="required"/>
-                          <xs:attribute name="Number" type="xs:string" use="required"/>
+                          <xs:sequence>
+                            <xs:element name="AnimalTag" minOccurs="1" maxOccurs="6">
+                              <xs:complexType>
+                                <xs:attribute name="Type" type="TagType" use="required"/>
+                                <xs:attribute name="Number" type="xs:string" use="required"/>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
                         </xs:complexType>
                       </xs:element>
                     </xs:sequence>
