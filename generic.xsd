@@ -34,7 +34,7 @@
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:attribute>
-                    <xs:attribute name="PremNum">
+                    <xs:attribute name="PremNum" use="required">
                       <xs:annotation>
                         <xs:documentation>If this is 7 characters we will assume it is a Federal PIN.
 If this is 6 or 8 characters we will assume it is a State LID.</xs:documentation>
