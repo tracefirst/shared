@@ -977,4 +977,14 @@ Receiving parties will interpret a short (2-3 character) upper case string as a 
       <xs:enumeration value="WY"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:simpleType name="EventType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BIR"/>
+      <xs:enumeration value="DEA"/>
+      <xs:enumeration value="SLA"/>
+      <xs:enumeration value="OBS"/>
+      <xs:enumeration value="EUTH"/>
+      <xs:enumeration value="PREG"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
