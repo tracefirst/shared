@@ -114,7 +114,7 @@ If this is 6 or 8 characters we will assume it is a State LID.</xs:documentation
                       </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="Age" use="optional" type="AgeType"> </xs:attribute>
-                    <xs:attribute name="DOB" use="optional" type="DOBType"> </xs:attribute>
+                    <xs:attribute name="DOB" use="optional" type="xs:date"> </xs:attribute>
                     <xs:attribute name="SpeciesCode" type="SpeciesCodeType" use="required">
                       <xs:annotation>
                         <xs:documentation>This is the Species for this animal.</xs:documentation>
@@ -347,14 +347,6 @@ If the ArrivalDate is specified, it must be &gt;= DepartureDate. If it is not, t
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9]{1,2}(d|wk|mo|a)"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="DOBType">
-    <xs:annotation>
-      <xs:documentation>date of birth specified as "YYYY-MM-DD"</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="AttachmentType">
