@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
   targetNamespace="http://www.tracefirst.com/xml/animaltrace" version="6.0"
-  xmlns="http://www.tracefirst.com/xml/generic">
+  xmlns="http://www.tracefirst.com/xml/animaltrace">
   <xs:annotation>
     <xs:documentation>
             Original XML schema provided by Trace First Limited 11/11/2015.
